@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dhanireddy Trivikram Reddy - Portfolio</title>
+  <link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    body {
+      background-color: #0a0f1f; /* Near-black with subtle dark blue tint */
+      color: #e5e7eb; /* gray-200 */
+    }
+    nav, footer {
+      background-color: #050914; /* Darker near-black with faint blue undertone */
+      color: #e5e7eb;
+    }
+    section {
+      background-color: #0a0f1f;
+    }
+    .project-card, .achievement-card, .video-container {
+      background-color: #1c2526; /* Very dark gray-blue for contrast */
+      color: #e5e7eb;
+    }
+    .wavy-image-container {
+      position: relative;
+      width: 350px;
+      height: 350px;
+      border-radius: 50%;
+      overflow: hidden;
+      animation: wavy-border 8s infinite ease-in-out;
+    }
+    .wavy-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+    @keyframes wavy-border {
+      0% {
+        box-shadow: 
+          0 0 0 4px rgba(45, 212, 191, 0.8),
+          0 0 0 8px rgba(94, 234, 212, 0.6),
+          0 0 0 12px rgba(45, 212, 191, 0.4);
+      }
+      50% {
+        box-shadow: 
+          0 0 0 6px rgba(45, 212, 191, 0.9),
+          0 0 0 12px rgba(94, 234, 212, 0.7),
+          0 0 0 18px rgba(45, 212, 191, 0.5);
+      }
+      100% {
+        box-shadow: 
+          0 0 0 4px rgba(45, 212, 191, 0.8),
+          0 0 0 8px rgba(94, 234, 212, 0.6),
+          0 0 0 12px rgba(45, 212, 191, 0.4);
+      }
+    }
+    .section-divider {
+      border: 0;
+      height: 2px;
+      background: linear-gradient(to right, transparent, #2dd4bf, transparent);
+      margin: 2rem 0;
+    }
+    .project-image {
+      width: 100%;
+      max-width: 400px;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .project-card, .achievement-card, .video-container {
+      opacity: 0;
+      transform: translateX(-50px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    .project-card.right, .achievement-card.right, .video-container.right {
+      transform: translateX(50px);
+    }
+    .project-card.visible, .achievement-card.visible, .video-container.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .section-title {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    }
+    .section-title.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    a {
+      color: #2dd4bf; /* Teal-400 */
+    }
+    a:hover {
+      color: #5eead4; /* Teal-300 */
+    }
+    /* Colored and thinner underlines for project names and skills headings */
+    .project-card h3 {
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      background: linear-gradient(to right, transparent, #2dd4bf, transparent);
+      background-size: 50% 1px; /* Narrower underline for centering */
+      background-repeat: no-repeat;
+      background-position: center bottom; /* Center the underline */
+      margin-bottom: 1rem; /* Line space below headings */
+    }
+    #skills h3 {
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      background: linear-gradient(to right, transparent, #2dd4bf, transparent);
+      background-size: 100% 1px;
+      background-repeat: no-repeat;
+      background-position: bottom;
+      margin-bottom: 1rem; /* Line space below headings */
+    }
+    /* Subheading style for Programming Languages and Spoken Languages */
+    .subheading {
+      font-size: 1.5rem; /* Smaller than section-title (3xl) but larger than card text */
+      font-weight: 600;
+      color: #60A5FA; /* Match badge-blue color for consistency */
+      margin-bottom: 1rem;
+    }
+    /* Achievements Section Styles */
+    .achievement-card {
+      border-radius: 12px;
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px; /* Pill shape */
+      font-size: 0.875rem;
+      font-weight: 500;
+      min-width: 60px; /* Ensure badge doesn't collapse with icon */
+      text-align: center;
+    }
+    .badge-gold {
+      background-color: #FFD700; /* Gold */
+      color: #1c2526;
+    }
+    .badge-silver {
+      background-color: #C0C0C0; /* Silver */
+      color: #1c2526;
+    }
+    .badge-bronze {
+      background-color: #CD7F32; /* Bronze */
+      color: #1c2526;
+    }
+    .badge-blue {
+      background-color: #60A5FA; /* Blue */
+      color: #1c2526;
+    }
+    /* Style for the </> symbol in Web Tech badge */
+    .web-tech-symbol {
+      font-family: monospace;
+      font-size: 1rem;
+      letter-spacing: -2px; /* Tighten spacing between < and > */
+    }
+    .view-image-link {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    /* Style for the icon in Achievements (now trophy) */
+    .achievement-star {
+      margin-left: 0.5rem;
+      color: #60A5FA; /* Match badge-blue color */
+    }
+    /* Style for contact items with icons */
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+    /* Style for skill icons */
+    .skill-icon {
+      width: 20px;
+      height: 20px;
+      margin-right: 0.5rem;
+      vertical-align: middle;
+    }
+    .skill-item {
+      display: inline-flex;
+      align-items: center;
+      margin-right: 1rem;
+      margin-bottom: 0.5rem;
+    }
+    /* Specific styles for colored icons */
+    .icon-html { color: #E34F26; }
+    .icon-css { color: #1572B6; }
+    .icon-js { color: #F7DF1E; }
+    .icon-react { color: #61DAFB; }
+    .icon-node { color: #339933; }
+    .icon-express { color: #FFFFFF; }
+    .icon-git { color: #F05032; }
+    .icon-bootstrap { color: #7952B3; }
+    .icon-postman { color: #FF6C37; }
+    .icon-mongodb { color: #47A248; }
+    .icon-mysql { color: #4479A1; }
+    .icon-tailwind { color: #38B2AC; }
+    .icon-soft-skill {
+      font-size: 2.3rem; /* Size for Font Awesome icons in Soft Skills */
+      color: #60A5FA; /* Match badge-blue color */
+      margin-bottom: 1rem;
+    }
+    /* Style for language boxes (used for both Spoken and Skills sections) */
+    .language-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 2rem; /* Increased gap for better spacing */
+      justify-items: center;
+      margin-bottom: 2rem; /* Space between subsections */
+    }
+    .language-box {
+      width: 180px;
+      height: 180px;
+      background-color: #1c2526; /* Match the dark gray-blue of other cards */
+      border-radius: 12px;
+      border: 1px solid #2dd4bf; /* Added subtle teal border */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem; /* Added padding for better spacing inside */
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .language-box:hover {
+      transform: scale(1.08); /* Slightly larger scale on hover */
+      box-shadow: 0 8px 16px rgba(45, 212, 191, 0.4); /* More pronounced teal glow */
+    }
+    .language-icon {
+      width: 40px; /* For Devicon icons */
+      height: 40px;
+      margin-bottom: 1rem;
+    }
+    /* Specific adjustment for Font Awesome icons in Web Technologies */
+    .web-tech-container .language-icon.fa-brands {
+      font-size: 2.5rem; /* Match visual size of 40px Devicon icons */
+      width: auto; /* Override width for Font Awesome */
+      height: auto; /* Override height for Font Awesome */
+    }
+    /* Specific adjustment for Font Awesome icons in Tools */
+    .tools-container .language-icon.fa-brands {
+      font-size: 2.5rem; /* Match visual size of 40px Devicon icons */
+      width: auto; /* Override width for Font Awesome */
+      height: auto; /* Override height for Font Awesome */
+    }
+    .language-name {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #e5e7eb; /* Gray-200 */
+      text-align: center;
+    }
+    @media (max-width: 640px) {
+      .wavy-image-container {
+        width: 250px;
+        height: 250px;
+      }
+      .achievement-card {
+        flex-direction: column;
+        text-align: center;
+      }
+      .achievement-star {
+        margin-left: 0;
+        margin-top: 0.5rem;
+      }
+      .language-container {
+        grid-template-columns: 1fr; /* Stack boxes on small screens */
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen">
+  <nav class="p-4 fixed w-full top-0 z-10 shadow-lg">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-xl font-bold">Trivikram's Portfolio</h1>
+      <ul class="flex space-x-4">
+        <li><a href="#about" class="transition">About</a></li>
+        <li><a href="#skills" class="transition">Skills</a></li>
+        <li><a href="#spoken-languages" class="transition">Languages</a></li>
+        <li><a href="#presentations" class="transition">Presentations</a></li>
+        <li><a href="#projects" class="transition">Projects</a></li>
+        <li><a href="#education" class="transition">Education</a></li>
+        <li><a href="#certifications" class="transition">Certifications</a></li>
+        <li><a href="#achievements" class="transition">Achievements</a></li>
+        <li><a href="#video" class="transition">Video</a></li>
+        <li><a href="#contact" class="transition">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section class="min-h-screen flex flex-col md:flex-row items-center justify-center px-4">
+    <div class="wavy-image-container mb-6 md:mb-0 md:mr-8">
+      <!-- Replace with your actual profile image -->
+      <img src="me.jpg" alt="Trivikram Reddy" class="wavy-image">
+    </div>
+    <div class="text-center md:text-left">
+      <h1 class="text-5xl font-bold mb-4"> Hey i am </h1><h1 class="text-5xl font-bold mb-4"> Dhanireddy Trivikram Reddy</h1>
+      <p class="text-xl mb-8">Full-Stack Developer | MERN Stack Enthusiast | ML Enthusiast</p>
+     
+      <a href="#about" class="px-6 py-3 bg-teal-600 text-white rounded-full hover:bg-teal-700 transition" onclick="event.preventDefault(); document.querySelector('#about').scrollIntoView({ behavior: 'smooth' });">Scroll Below</a>
+    </div>
+  </section>
+
+  <section id="about" class="py-16">
+    <div class="container mx-auto px-4">
+      <h2 class="section-title text-3xl font-bold text-teal-400 mb-6">About Me</h2>
+      <hr class="section-divider">
+      <div class="text-lg">
+        <p>
+          Motivated and driven full-stack development (MERN Stack), expertise in programming languages such
+ as Java and Python. Dedicated to continuously expanding knowledge of emerging technologies and committed to
+ making a meaningful impact through innovation and learning. Open for internships and full-time jobs.
+        </p>
+        <p class="mt-4">Date of Birth: 31/07/2004 | Marital Status: Unmarried</p>
+        <p>Interests: Full Stack Development, UI/UX Design</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills" class="py-16">
+    <div class="container mx-auto px-4">
+      <h2 class="section-title text-3xl font-bold text-teal-400 mb-6">Skills</h2>
+      <hr class="section-divider">
+      <div>
+        <h3 class="subheading">Programming Languages</h3>
+        <div class="language-container">
+          <div class="language-box">
+            <img src="https://cdn.jsdelivr.net/npm/devicon@2.15.1/icons/java/java-original.svg" alt="Java" class="language-icon">
+            <p class="language-name">Java</p>
+          </div>
+          <div class="language-box">
+            <img src="https://cdn.jsdelivr.net/npm/devicon@2.15.1/icons/python/python-original.svg" alt="Python" class="language-icon">
+            <p class="language-name">Python</p>
+          </div>
+          <div class="language-box">
+            <img src="https://cdn.jsdelivr.net/npm/devicon@2.15.1/icons/c/c-original.svg" alt="C" class="language-icon">
+            <p class="language-name">C</p>
+          </div>
+        </div>
+      </div>
+      <div class="web-tech-container">
+        <h3 class="subheading">Web Technologies</h3>
+        <div class="language-container">
+          <div class="language-box">
+            <i class="fa-brands fa-html5 language-icon icon-html"></i>
+            <p class="language-name">HTML</p>
+          </div>
+          <div class="language-box">
+            <i class="fa-brands fa-css3-alt language-icon icon-css"></i>
+            <p class="language-name">CSS</p>
+          </div>
+          <div class="language-box">
+            <i class="fa-brands fa-js language-icon icon-js"></i>
+            <p class="language-name">JavaScript</p>
+          </div>
+          <div class="language-box">
+            <i class="fa-brands fa-react language-icon icon-react"></i>
+            <p class="language-name">React JS</p>
+          </div>
+          <div class="language-box">
+            <i class="fa-brands fa-node-js language-icon icon-node"></i>
+            <p class="language-name">Node.js</p>
+          </div>
+          <div class="language-box">
+            <img src="https://cdn.jsdelivr.net/npm/devicon@2.15.1/icons/express/express-original.svg" alt="Express JS" class="language-icon icon-express">
+            <p class="language-name">Express JS</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h3 class="subheading">Databases</h3>
+        <div class="language-container">
+          <div class="language-box">
+            <img src="https://cdn.jsdelivr.net/npm/devicon@2.15.1/icons/mongodb/mongodb-original.svg" alt="MongoDB" class="language-icon icon-mongodb">
+            <p class="language-name">MongoDB</p>
+          </div>
+          <div class="language-box">
+            <img src="https://cdn.jsdelivr.net/npm/devicon@2.15.1/icons/mysql/mysql-original.svg" alt="MySQL" class="language-icon icon-mysql">
+            <p class="language-name">MySQL</p>
+          </div>
+        </div>
+      </div>
+      <div class="tools-container">
+        <h3 class="subheading">Tools</h3>
+        <div class="language-container">
+          <div class="language-box">
+            <i class="fa-brands fa-git-alt language-icon icon-git"></i>
+            <p class="language-name">Git</p>
+          </div>
+          <div class="language-box">
+            <i class="fa-brands fa-bootstrap language-icon icon-bootstrap"></i>
+            <p class="language-name">Bootstrap</p>
+          </div>
+          <div class="language-box">
+            <img src="postman.png" alt="Postman" class="language-icon icon-postman">
+            <p class="language-name">Postman</p>
+          </div>
+          <div class="language-box">
+            <img src="https://cdn.jsdelivr.net/npm/devicon@2.15.1/icons/tailwindcss/tailwindcss-plain.svg" alt="Tailwind CSS" class="language-icon icon-tailwind">
+            <p class="language-name">Tailwind CSS</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h3 class="subheading">Soft Skills</h3>
+        <div class="language-container">
+          <div class="language-box">
+            <i class="fa-solid fa-comment icon-soft-skill"></i>
+            <p class="language-name">Communication</p>
+          </div>
+          <div class="language-box">
+            <i class="fa-solid fa-users icon-soft-skill"></i>
+            <p class="language-name">Teamwork</p>
+          </div>
+          <div class="language-box">
+            <i class="fa-solid fa-lightbulb icon-soft-skill"></i>
+            <p class="language-name">Critical Thinking</p>
+          </div>
+          <div class="language-box">
+            <i class="fa-solid fa-arrows-rotate icon-soft-skill"></i>
+            <p class="language-name">Adaptability</p>
+          </div>
+          <div class="language-box">
+            <i class="fa-solid fa-clock icon-soft-skill"></i>
+            <p class="language-name">Time Management</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="spoken-languages" class="py-16">
+    <div class="container mx-auto px-4">
+      <h2 class="section-title text-3xl font-bold text-teal-400 mb-6">Languages</h2>
+      <hr class="section-divider">
+      <div>
+        <h3 class="subheading">Spoken Languages</h3>
+        <div class="language-container">
+          <div class="language-box">
+            <p class="language-name">Telugu</p>
+          </div>
+          <div class="language-box">
+            <p class="language-name">English</p>
+          </div>
+          <div class="language-box">
+            <p class="language-name">Hindi</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="presentations" class="py-16">
+    <div class="container mx-auto px-4">
+      <h2 class="section-title text-3xl font-bold text-teal-400 mb-6">Presentations</h2>
+      <hr class="section-divider">
+      <div class="space-y-6">
+        <div class="achievement-card p-6 rounded-lg shadow-lg">
+          <span class="badge badge-blue">Paper</span>
+          <i class="fa-solid fa-chalkboard-user achievement-star"></i>
+          <div>
+            <p class="mt-1">Presented research paper "Automatic Number Plate Recognition for Bus Arrival Tracking Using Haar Cascade Classifier and Tesseract OCR" at the International Conference on Artificial Intelligence (ICAI). <a href="presentaion cert.pdf" class="view-image-link" target="_blank">View Certificate</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects" class="py-16">
+    <div class="container mx-auto px-4">
+      <h2 class="section-title text-3xl font-bold text-teal-400 mb-6">Projects</h2>
+      <hr class="section-divider">
+      <div class="space-y-6">
+        <div class="project-card flex flex-col md:flex-row items-center p-6 rounded-lg shadow-lg">
+          <div class="md:w-1/2 mb-4 md:mb-0">
+            <img src="gruha.png" alt="Gruha Anvesh" class="project-image">
+          </div>
+          <div class="md:w-1/2 md:px-6">
+            <h3 class="text-xl font-semibold">Gruha Anvesh - PG, BHK & Vacation Rental Platform</h3>
+            <a href="https://gruha-anvesh.onrender.com" class="hover:underline" target="_blank">Deployed Link</a>
+            <p><strong>Overview:</strong> Built a full-stack web app for listing and booking PGs, BHKs, and vacation rentals with real-time chat, 3D property views, and map integration.</p>
+            <p><strong>Features:</strong> Used Multi-Armed Bandit (MAB) algorithm to recommend properties based on user behavior, real-time chat, map view, 3D view of house.</p>
+            <p><strong>Impact:</strong> Streamlined booking, enhanced trust with immersive previews, and improved engagement via personalized recommendations.</p>
+            <p><strong>Tools:</strong> React, Node.js, Express.js, MongoDB, Socket.io, Cloudinary, Render, Multi-Armed Bandit (MAB) algorithm</p>
+          </div>
+        </div>
+        <div class="project-card right flex flex-col md:flex-row-reverse items-center p-6 rounded-lg shadow-lg">
+          <div class="md:w-1/2 mb-4 md:mb-0">
+            <img src="farm 2 fork.png" alt="Farm2Fork" class="project-image">
+          </div>
+          <div class="md:w-1/2 md:px-6">
+            <h3 class="text-xl font-semibold">Farm2Fork - Agritech Website</h3>
+            <a href="https://github.com/sriraghavi22/farm2fork" class="hover:underline" target="_blank">GitHub Link</a>
+            <p><strong>Overview:</strong> Built an Agritech platform connecting farmers, middlemen, and retail shops to streamline the supply chain, benefiting all stakeholders.</p>
+            <p><strong>Features:</strong> Implemented a QR code system for consumers to access tamper-proof product details using IPFS, ensuring product authenticity.</p>
+            <p><strong>Impact:</strong> Ensured fair prices for farmers and middlemen while offering consumers genuine, worry-free product experiences.</p>
+            <p><strong>Tools:</strong> React, Express, Node.js, MongoDB, IPFS</p>
+          </div>
+        </div>
+        <div class="project-card flex flex-col md:flex-row items-center p-6 rounded-lg shadow-lg">
+          <div class="md:w-1/2 mb-4 md:mb-0">
+            <img src="number plate recognition.png" alt="Number Plate Recognition" class="project-image">
+          </div>
+          <div class="md:w-1/2 md:px-6">
+            <h3 class="text-xl font-semibold">Automatic Number Plate Recognition for Bus Arrival Tracking</h3>
+            <a href="https://github.com/Trivikram-07/parking-space-management-using-open-cv" class="hover:underline" target="_blank">GitHub Link</a>
+            <p><strong>Overview:</strong> Developed a real-time bus tracking system that identifies vehicle number plates using computer vision and OCR techniques.</p>
+            <p><strong>Features:</strong> Leveraged Haar Cascade Classifier for number plate detection and integrated Tesseract OCR to extract and process textual information.</p>
+            <p><strong>Impact:</strong> Enabled accurate and automated bus arrival tracking, reducing manual effort and improving reliability in transportation systems.</p>
+            <p><strong>Tools:</strong> Python, OpenCV, Haar Cascade, Tesseract OCR</p>
+          </div>
+        </div>
+        <div class="project-card right flex flex-col md:flex-row-reverse items-center p-6 rounded-lg shadow-lg">
+          <div class="md:w-1/2 mb-4 md:mb-0">
+            <img src="viki travels.png" alt="Viki Travels" class="project-image">
+          </div>
+          <div class="md:w-1/2 md:px-6">
+            <h3 class="text-xl font-semibold">Viki Travels Website</h3>
+            <a href="https://github.com/Trivikram-07/viki-travels" class="hover:underline" target="_blank">GitHub Link</a>
+            <p><strong>Overview:</strong> Designed a responsive car rental website where customers can view and book vehicles.</p>
+            <p><strong>Features:</strong> User-friendly interface with booking functionality.</p>
+            <p><strong>Tools:</strong> React, HTML, CSS, JavaScript, Bootstrap</p>
+          </div>
+        </div>
+        <div class="project-card flex flex-col md:flex-row items-center p-6 rounded-lg shadow-lg">
+          <div class="md:w-1/2 mb-4 md:mb-0">
+            <img src="bv blog.png" alt="B.V Blog" class="project-image">
+          </div>
+          <div class="md:w-1/2 md:px-6">
+            <h3 class="text-xl font-semibold">B.V Blog Website</h3>
+            <p><strong>Overview:</strong> Created a college blog platform for authenticated students to post reviews and content.</p>
+            <p><strong>Features:</strong> Authentication system and content viewing for visitors.</p>
+            <p><strong>Tools:</strong> PHPflutter: 1.0.0, HTML, CSS, JavaScript, MySQL</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="education" class="py-16">
+    <div class="container mx-auto px-4">
+      <h2 class="section-title text-3xl font-bold text-teal-400 mb-6">Education</h2>
+      <hr class="section-divider">
+      <div class="space-y-4">
+        <div>
+          <h3 class="text-xl font-semibold">B.Tech (CSE - Data Science)</h3>
+          <p>B.V. Raju Institute of Technology, Narsapur (Telangana), 2022-2026</p>
+          <p>GPA: 8.6</p>
+        </div>
+        <div>
+          <h3 class="text-xl font-semibold">Intermediate</h3>
+          <p>Sri Chaitanya Junior Kalasala, S.R Nagar (HYD), 2020-2022</p>
+          <p>957/1000</p>
+        </div>
+        <div>
+          <h3 class="text-xl font-semibold">High School</h3>
+          <p>Sister Nivedita School, Ameerpet (HYD) - CBSE</p>
+          <p>87 Percent</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="certifications" class="py-16">
+    <div class="container mx-auto px-4">
+      <h2 class="section-title text-3xl font-bold text-teal-400 mb-6">Certifications</h2>
+      <hr class="section-divider">
+      <div class="space-y-6">
+        <div class="achievement-card p-6 rounded-lg shadow-lg">
+          <span class="badge badge-blue"><i class="fa-regular fa-star"></i></span>
+          <div>
+            <p class="mt-1">The Complete Full-Stack Web Development Bootcamp by Angela Yu - Udemy</p>
+          </div>
+        </div>
+        <div class="achievement-card right p-6 rounded-lg shadow-lg">
+          <span class="badge badge-blue"><i class="fa-regular fa-star"></i></span>
+          <div>
+            <p class="mt-1">Java Foundations and Fundamentals - Oracle</p>
+          </div>
+        </div>
+        <div class="achievement-card p-6 rounded-lg shadow-lg">
+          <span class="badge badge-blue"><i class="fa-regular fa-star"></i></span>
+          <div>
+            <p class="mt-1">Programming in Java - NPTEL</p>
+          </div>
+        </div>
+        <div class="achievement-card right p-6 rounded-lg shadow-lg">
+          <span class="badge badge-blue"><i class="fa-regular fa-star"></i></span>
+          <div>
+            <p class="mt-1">Responsive Web Design - Free Code Camp</p>
+          </div>
+        </div>
+        <div class="achievement-card p-6 rounded-lg shadow-lg">
+          <span class="badge badge-blue"><i class="fa-regular fa-star"></i></span>
+          <div>
+            <p class="mt-1">Data Science with Python - Coincent</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="achievements" class="py-16">
+    <div class="container mx-auto px-4">
+      <h2 class="section-title text-3xl font-bold text-teal-400 mb-6">Achievements</h2>
+      <hr class="section-divider">
+      <div class="space-y-6">
+        <div class="achievement-card p-6 rounded-lg shadow-lg">
+          <span class="badge badge-bronze">Bronze</span>
+          <i class="fa-solid fa-trophy achievement-star"></i>
+          <div>
+            <p class="mt-1">Secured 3rd place at HackNexus hackathon during Synergia at BVRIT Hyderabad, developing a Streamlit web app for digital skill assessment and learning roadmap generation. <a href="bvrith.jpg" class="view-image-link" target="_blank">View Image</a></p>
+          </div>
+        </div>
+        <div class="achievement-card right p-6 rounded-lg shadow-lg">
+          <span class="badge badge-silver">Silver</span>
+          <i class="fa-solid fa-trophy achievement-star"></i>
+          <div>
+            <p class="mt-1">Won 2nd prize at Vasavi College Tech Savishkaar 2025 Hackathon for an Agritech project (Farm2Fork) linking farmers, middlemen, and retail shops. <a href="vasavi.jpg" class="view-image-link" target="_blank">View Image</a></p>
+          </div>
+        </div>
+        <div class="achievement-card p-6 rounded-lg shadow-lg">
+          <span class="badge badge-bronze">Bronze</span>
+          <i class="fa-solid fa-trophy achievement-star"></i>
+          <div>
+            <p class="mt-1">SIH 2023 Ideation Hackathon 3rd prize winner at B.V. Raju Institute of Technology, Telangana. <a href="sih.jpg" class="view-image-link" target="_blank">View Image</a></p>
+          </div>
+        </div>
+        <div class="achievement-card right p-6 rounded-lg shadow-lg">
+          <span class="badge badge-gold">Acheived</span>
+          <i class="fa-solid fa-trophy achievement-star"></i>
+          <div>
+            <p class="mt-1">Selected for the NxtWave NSDC Fellowship.</p>
+          </div>
+        </div>
+        <div class="achievement-card right p-6 rounded-lg shadow-lg">
+          <span class="badge badge-blue">Member</span>
+          <i class="fa-solid fa-trophy achievement-star"></i>
+          <div>
+            <p class="mt-1">Member of BVRIT-MUN (DISEC) [Model United Nations].</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="video" class="py-16">
+    <div class="container mx-auto px-4">
+      <h2 class="section-title text-3xl font-bold text-teal-400 mb-6">video resume</h2>
+      <hr class="section-divider">
+      <div class="video-container flex justify-center p-6 rounded-lg shadow-lg">
+        <video class="w-full max-w-2xl rounded-lg" controls poster="thumbnails.jpeg">
+          <source src="resume-vedio.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="py-16">
+    <div class="container mx-auto px-4">
+      <h2 class="section-title text-3xl font-bold text-teal-400 mb-6">Contact</h2>
+      <hr class="section-divider">
+      <div>
+        <div class="contact-item">
+          <i class="fa-solid fa-envelope"></i>
+          <p>Email: <a href="mailto:sudhakarreddyvikram@gmail.com" class="hover:underline">sudhakarreddyvikram@gmail.com</a></p>
+        </div>
+        <div class="contact-item">
+          <i class="fa-solid fa-phone"></i>
+          <p>Phone: <a href="tel:9032242444" class="hover:underline">9032242444</a></p>
+        </div>
+        <div class="contact-item">
+          <i class="fa-brands fa-linkedin"></i>
+          <p>LinkedIn: <a href="https://www.linkedin.com/in/dhanireddy-trivikram-reddy-35b342246/" class="hover:underline" target="_blank">Dhanireddy Trivikram Reddy</a></p>
+        </div>
+        <div class="contact-item">
+          <i class="fa-brands fa-github"></i>
+          <p>GitHub: <a href="https://github.com/Trivikram-07" class="hover:underline" target="_blank">Trivikram-07</a></p>
+        </div>
+        <div class="contact-item">
+          <i class="fa-solid fa-file-powerpoint"></i>
+          <p>Presentation: <a href="https://drive.google.com/file/d/1cNtmYZ0uv83Uhekfb9TOFL3Z0YegavRG/view?usp=drive_link" class="hover:underline" target="_blank">View Presentation</a></p>
+        </div>
+        <div class="contact-item">
+          <i class="fa-solid fa-file-pdf"></i>
+          <p>Resume: <a href="22211a6731_Dhanireddy_Trivikram_Reddy.pdf" class="hover:underline" download>Download Resume</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Scroll Animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('.project-card, .section-title, .achievement-card, .language-box, .video-container').forEach(element => {
+      observer.observe(element);
+    });
+  </script>
+</body>
+</html>

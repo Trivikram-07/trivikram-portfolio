@@ -8,20 +8,34 @@
   <!-- Font Awesome CDN -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden;
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+    }
+    html::-webkit-scrollbar, body::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Edge */
+    }
     body {
-      background-color: #0a0f1f; /* Near-black with subtle dark blue tint */
-      color: #e5e7eb; /* gray-200 */
+      background-color: #0a0f1f;
+      color: #e5e7eb;
+      padding-top: 80px; /* Offset for fixed navbar */
     }
     nav, footer {
-      background-color: #050914; /* Darker near-black with faint blue undertone */
+      background-color: #050914; /* Original navbar background */
       color: #e5e7eb;
     }
     section {
       background-color: #0a0f1f;
     }
     .project-card, .achievement-card, .video-container {
-      background-color: #1c2526; /* Very dark gray-blue for contrast */
+      background-color: #1c2526;
       color: #e5e7eb;
+      border: 1px solid rgba(45, 212, 191, 0.2);
     }
     .wavy-image-container {
       position: relative;
@@ -29,32 +43,44 @@
       height: 350px;
       border-radius: 50%;
       overflow: hidden;
-      animation: wavy-border 8s infinite ease-in-out;
+      animation: sea-wave 1s ease-in-out infinite;
     }
     .wavy-image {
       width: 100%;
       height: 100%;
       object-fit: cover;
       border-radius: 50%;
+      transform: rotate(180deg);
+      animation: half-rotate-image 1s ease-in-out forwards;
     }
-    @keyframes wavy-border {
+    @keyframes half-rotate-image {
       0% {
-        box-shadow: 
-          0 0 0 4px rgba(45, 212, 191, 0.8),
-          0 0 0 8px rgba(94, 234, 212, 0.6),
-          0 0 0 12px rgba(45, 212, 191, 0.4);
-      }
-      50% {
-        box-shadow: 
-          0 0 0 6px rgba(45, 212, 191, 0.9),
-          0 0 0 12px rgba(94, 234, 212, 0.7),
-          0 0 0 18px rgba(45, 212, 191, 0.5);
+        transform: rotate(180deg);
       }
       100% {
-        box-shadow: 
-          0 0 0 4px rgba(45, 212, 191, 0.8),
-          0 0 0 8px rgba(94, 234, 212, 0.6),
-          0 0 0 12px rgba(45, 212, 191, 0.4);
+        transform: rotate(0deg);
+      }
+    }
+    .wavy-image-container.stopped {
+      animation: none;
+      box-shadow: 
+        0 0 0 4px rgba(45, 212, 191, 0.8),
+        0 0 0 8px rgba(94, 234, 212, 0.6),
+        0 0 0 12px rgba(45, 212, 191, 0.4);
+    }
+    .intro-text {
+      opacity: 0;
+      transform: translateX(-100px);
+      animation: slide-in-text 0.5s ease-out 0.5s forwards;
+    }
+    @keyframes slide-in-text {
+      0% {
+        opacity: 0;
+        transform: translateX(-100px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0);
       }
     }
     .section-divider {
@@ -65,10 +91,16 @@
     }
     .project-image {
       width: 100%;
-      max-width: 400px;
+      max-width: 450px;
       height: auto;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      object-fit: cover;
+    }
+    .project-image:hover {
+      transform: scale(1.08);
+      box-shadow: 0 10px 20px rgba(45, 212, 191, 0.4);
     }
     .project-card, .achievement-card, .video-container {
       opacity: 0;
@@ -92,20 +124,19 @@
       transform: translateY(0);
     }
     a {
-      color: #2dd4bf; /* Teal-400 */
+      color: #2dd4bf;
     }
     a:hover {
-      color: #5eead4; /* Teal-300 */
+      color: #5eead4;
     }
-    /* Colored and thinner underlines for project names and skills headings */
     .project-card h3 {
       text-decoration: none;
       border-bottom: 1px solid transparent;
       background: linear-gradient(to right, transparent, #2dd4bf, transparent);
-      background-size: 50% 1px; /* Narrower underline for centering */
+      background-size: 50% 1px;
       background-repeat: no-repeat;
-      background-position: center bottom; /* Center the underline */
-      margin-bottom: 1rem; /* Line space below headings */
+      background-position: center bottom;
+      margin-bottom: 1.5rem;
     }
     #skills h3 {
       text-decoration: none;
@@ -114,16 +145,14 @@
       background-size: 100% 1px;
       background-repeat: no-repeat;
       background-position: bottom;
-      margin-bottom: 1rem; /* Line space below headings */
-    }
-    /* Subheading style for Programming Languages and Spoken Languages */
-    .subheading {
-      font-size: 1.5rem; /* Smaller than section-title (3xl) but larger than card text */
-      font-weight: 600;
-      color: #60A5FA; /* Match badge-blue color for consistency */
       margin-bottom: 1rem;
     }
-    /* Achievements Section Styles */
+    .subheading {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #60A5FA;
+      margin-bottom: 1rem;
+    }
     .achievement-card {
       border-radius: 12px;
       padding: 1rem;
@@ -136,51 +165,47 @@
       align-items: center;
       justify-content: center;
       padding: 0.25rem 0.75rem;
-      border-radius: 9999px; /* Pill shape */
+      border-radius: 9999px;
       font-size: 0.875rem;
       font-weight: 500;
-      min-width: 60px; /* Ensure badge doesn't collapse with icon */
+      min-width: 60px;
       text-align: center;
     }
     .badge-gold {
-      background-color: #FFD700; /* Gold */
+      background-color: #FFD700;
       color: #1c2526;
     }
     .badge-silver {
-      background-color: #C0C0C0; /* Silver */
+      background-color: #C0C0C0;
       color: #1c2526;
     }
     .badge-bronze {
-      background-color: #CD7F32; /* Bronze */
+      background-color: #CD7F32;
       color: #1c2526;
     }
     .badge-blue {
-      background-color: #60A5FA; /* Blue */
+      background-color: #60A5FA;
       color: #1c2526;
     }
-    /* Style for the </> symbol in Web Tech badge */
     .web-tech-symbol {
       font-family: monospace;
       font-size: 1rem;
-      letter-spacing: -2px; /* Tighten spacing between < and > */
+      letter-spacing: -2px;
     }
     .view-image-link {
       cursor: pointer;
       text-decoration: underline;
     }
-    /* Style for the icon in Achievements (now trophy) */
     .achievement-star {
       margin-left: 0.5rem;
-      color: #60A5FA; /* Match badge-blue color */
+      color: #60A5FA;
     }
-    /* Style for contact items with icons */
     .contact-item {
       display: flex;
       align-items: center;
       gap: 0.5rem;
       margin-bottom: 0.75rem;
     }
-    /* Style for skill icons */
     .skill-icon {
       width: 20px;
       height: 20px;
@@ -193,7 +218,6 @@
       margin-right: 1rem;
       margin-bottom: 0.5rem;
     }
-    /* Specific styles for colored icons */
     .icon-html { color: #E34F26; }
     .icon-css { color: #1572B6; }
     .icon-js { color: #F7DF1E; }
@@ -207,58 +231,111 @@
     .icon-mysql { color: #4479A1; }
     .icon-tailwind { color: #38B2AC; }
     .icon-soft-skill {
-      font-size: 2.3rem; /* Size for Font Awesome icons in Soft Skills */
-      color: #60A5FA; /* Match badge-blue color */
+      font-size: 2.3rem;
+      color: #60A5FA;
       margin-bottom: 1rem;
     }
-    /* Style for language boxes (used for both Spoken and Skills sections) */
     .language-container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 2rem; /* Increased gap for better spacing */
+      gap: 2rem;
       justify-items: center;
-      margin-bottom: 2rem; /* Space between subsections */
+      margin-bottom: 2rem;
     }
     .language-box {
       width: 180px;
       height: 180px;
-      background-color: #1c2526; /* Match the dark gray-blue of other cards */
+      background-color: #1c2526;
       border-radius: 12px;
-      border: 1px solid #2dd4bf; /* Added subtle teal border */
+      border: 1px solid #2dd4bf;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 1rem; /* Added padding for better spacing inside */
+      padding: 1rem;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
     .language-box:hover {
-      transform: scale(1.08); /* Slightly larger scale on hover */
-      box-shadow: 0 8px 16px rgba(45, 212, 191, 0.4); /* More pronounced teal glow */
+      transform: scale(1.08);
+      box-shadow: 0 8px 16px rgba(45, 212, 191, 0.4);
     }
     .language-icon {
-      width: 40px; /* For Devicon icons */
+      width: 40px;
       height: 40px;
       margin-bottom: 1rem;
     }
-    /* Specific adjustment for Font Awesome icons in Web Technologies */
     .web-tech-container .language-icon.fa-brands {
-      font-size: 2.5rem; /* Match visual size of 40px Devicon icons */
-      width: auto; /* Override width for Font Awesome */
-      height: auto; /* Override height for Font Awesome */
+      font-size: 2.5rem;
+      width: auto;
+      height: auto;
     }
-    /* Specific adjustment for Font Awesome icons in Tools */
     .tools-container .language-icon.fa-brands {
-      font-size: 2.5rem; /* Match visual size of 40px Devicon icons */
-      width: auto; /* Override width for Font Awesome */
-      height: auto; /* Override height for Font Awesome */
+      font-size: 2.5rem;
+      width: auto;
+      height: auto;
     }
     .language-name {
       font-size: 1.3rem;
       font-weight: 600;
-      color: #e5e7eb; /* Gray-200 */
+      color: #e5e7eb;
       text-align: center;
+    }
+    .tool-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      margin: 0.25rem;
+      border-radius: 16px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      background-color: #2dd4bf;
+      color: #1c2526;
+    }
+    .project-links {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .project-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+      border-radius: 16px;
+      gap: 1.5rem;
+    }
+    .project-card.right .project-content {
+      order: 1;
+    }
+    .project-image-container {
+      width: 100%;
+      max-width: 500px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    .project-content {
+      width: 100%;
+      max-width: 600px;
+      text-align: left;
+    }
+    @media (min-width: 768px) {
+      .project-card {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 2rem;
+      }
+      .project-image-container {
+        width: 50%;
+        margin-bottom: 0;
+      }
+      .project-content {
+        width: 50%;
+      }
+      .project-card.right {
+        flex-direction: row-reverse;
+      }
     }
     @media (max-width: 640px) {
       .wavy-image-container {
@@ -274,7 +351,55 @@
         margin-top: 0.5rem;
       }
       .language-container {
-        grid-template-columns: 1fr; /* Stack boxes on small screens */
+        grid-template-columns: 1fr;
+      }
+      .project-links {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      .project-image {
+        max-width: 100%;
+      }
+      .project-card {
+        padding: 1.5rem;
+      }
+      .project-image-container {
+        max-width: 100%;
+      }
+      /* Ensure navbar button doesn't overlap on mobile */
+      .navbar-resume-button {
+        font-size: 0.875rem;
+        padding: 0.5rem 1rem;
+      }
+    }
+    /* Navbar styling */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 80px;
+      z-index: 10;
+      background-color: #050914; /* Original background */
+    }
+    /* Style for the resume button in navbar */
+    .navbar-resume-button {
+      z-index: 11; /* Above other navbar content */
+    }
+    /* Reinforce hero section centering */
+    .hero-section {
+      display: flex;
+      flex-direction: column;
+      min-height: calc(100vh - 80px); /* Adjust for navbar height */
+      justify-content: center;
+      align-items: center;
+      padding: 2rem 1rem;
+      box-sizing: border-box;
+    }
+    @media (min-width: 768px) {
+      .hero-section {
+        flex-direction: row;
+        padding: 2rem 4rem;
       }
     }
   </style>
@@ -283,30 +408,32 @@
   <nav class="p-4 fixed w-full top-0 z-10 shadow-lg">
     <div class="container mx-auto flex justify-between items-center">
       <h1 class="text-xl font-bold">Trivikram's Portfolio</h1>
-      <ul class="flex space-x-4">
-        <li><a href="#about" class="transition">About</a></li>
-        <li><a href="#skills" class="transition">Skills</a></li>
-        <li><a href="#spoken-languages" class="transition">Languages</a></li>
-        <li><a href="#presentations" class="transition">Presentations</a></li>
-        <li><a href="#projects" class="transition">Projects</a></li>
-        <li><a href="#education" class="transition">Education</a></li>
-        <li><a href="#certifications" class="transition">Certifications</a></li>
-        <li><a href="#achievements" class="transition">Achievements</a></li>
-        <li><a href="#video" class="transition">Video</a></li>
-        <li><a href="#contact" class="transition">Contact</a></li>
-      </ul>
+      <div class="flex items-center space-x-4">
+        <ul class="flex space-x-4">
+          <li><a href="#about" class="transition">About</a></li>
+          <li><a href="#skills" class="transition">Skills</a></li>
+          <li><a href="#spoken-languages" class="transition">Languages</a></li>
+          <li><a href="#presentations" class="transition">Presentations</a></li>
+          <li><a href="#projects" class="transition">Projects</a></li>
+          <li><a href="#education" class="transition">Education</a></li>
+          <li><a href="#certifications" class="transition">Certifications</a></li>
+          <li><a href="#achievements" class="transition">Achievements</a></li>
+          <li><a href="#video" class="transition">Video</a></li>
+          <li><a href="#contact" class="transition">Contact</a></li>
+        </ul>
+        <a href="https://drive.google.com/file/d/15CsOQKxL_XUo5fbQfdJjzMw6V-QTenQH/view?usp=sharing" class="navbar-resume-button px-4 py-2 bg-teal-600 text-white rounded-full hover:bg-teal-700 transition" target="_blank">View Resume</a>
+      </div>
     </div>
   </nav>
 
-  <section class="min-h-screen flex flex-col md:flex-row items-center justify-center px-4">
+  <section class="hero-section">
     <div class="wavy-image-container mb-6 md:mb-0 md:mr-8">
-      <!-- Replace with your actual profile image -->
       <img src="me.jpg" alt="Trivikram Reddy" class="wavy-image">
     </div>
-    <div class="text-center md:text-left">
-      <h1 class="text-5xl font-bold mb-4"> Hey I am </h1><h1 class="text-5xl font-bold mb-4"> Dhanireddy Trivikram Reddy</h1>
+    <div class="text-center md:text-left intro-text">
+      <h1 class="text-5xl font-bold mb-4"> Hey I am </h1>
+      <h1 class="text-5xl font-bold mb-4"> Dhanireddy Trivikram Reddy</h1>
       <p class="text-xl mb-8">Full-Stack Developer | MERN Stack Enthusiast | ML Enthusiast</p>
-     
       <a href="#about" class="px-6 py-3 bg-teal-600 text-white rounded-full hover:bg-teal-700 transition" onclick="event.preventDefault(); document.querySelector('#about').scrollIntoView({ behavior: 'smooth' });">Scroll Below</a>
     </div>
   </section>
@@ -318,8 +445,8 @@
       <div class="text-lg">
         <p>
           Motivated and driven full-stack developer (MERN Stack), expertise in programming languages such
- as Java and Python. Dedicated to continuously expanding knowledge of emerging technologies and committed to
- making a meaningful impact through innovation and learning. Open for internships and full-time jobs.
+          as Java and Python. Dedicated to continuously expanding knowledge of emerging technologies and committed to
+          making a meaningful impact through innovation and learning. Open for internships and full-time jobs.
         </p>
         <p class="mt-4">Date of Birth: 31/07/2004 | Marital Status: Unmarried</p>
         <p>Interests: Full Stack Development, UI/UX Design</p>
@@ -375,7 +502,7 @@
             <img src="https://cdn.jsdelivr.net/npm/devicon@2.15.1/icons/express/express-original.svg" alt="Express JS" class="language-icon icon-express">
             <p class="language-name">Express JS</p>
           </div>
-           <div class="language-box">
+          <div class="language-box">
             <i class="fa-brands fa-bootstrap language-icon icon-bootstrap"></i>
             <p class="language-name">Bootstrap</p>
           </div>
@@ -405,12 +532,10 @@
             <i class="fa-brands fa-git-alt language-icon icon-git"></i>
             <p class="language-name">Git</p>
           </div>
-         
           <div class="language-box">
             <img src="postman.png" alt="Postman" class="language-icon icon-postman">
             <p class="language-name">Postman</p>
           </div>
-          
         </div>
       </div>
       <div>
@@ -482,69 +607,148 @@
     <div class="container mx-auto px-4">
       <h2 class="section-title text-3xl font-bold text-teal-400 mb-6">Projects</h2>
       <hr class="section-divider">
-      <div class="space-y-6">
+      <div class="space-y-8">
         <div class="project-card flex flex-col md:flex-row items-center p-6 rounded-lg shadow-lg">
-          <div class="md:w-1/2 mb-4 md:mb-0">
+          <div class="project-image-container">
             <img src="gruha.png" alt="Gruha Anvesh" class="project-image">
           </div>
-          <div class="md:w-1/2 md:px-6">
+          <div class="project-content">
             <h3 class="text-xl font-semibold">Gruha Anvesh - PG, BHK & Vacation Rental Platform</h3>
-            <a href="https://gruha-anvesh.onrender.com" class="hover:underline" target="_blank">Deployed Link</a>
+            <div class="project-links">
+              <a href="https://gruha-anvesh.onrender.com" class="hover:underline" target="_blank"><i class="fa-solid fa-rocket mr-1"></i> Deployed Link</a>
+              <a href="https://github.com/Trivikram-07/Gruha-Anvesh" class="hover:underline" target="_blank"><i class="fa-brands fa-github mr-1"></i> Github Link</a>
+            </div>
             <p><strong>Overview:</strong> Built a full-stack web app for listing and booking PGs, BHKs, and vacation rentals with real-time chat, 3D property views, and map integration.</p>
             <p><strong>Features:</strong> Used Multi-Armed Bandit (MAB) algorithm to recommend properties based on user behavior, real-time chat, map view, 3D view of house.</p>
             <p><strong>Impact:</strong> Streamlined booking, enhanced trust with immersive previews, and improved engagement via personalized recommendations.</p>
-            <p><strong>Tools:</strong> React, Node.js, Express.js, MongoDB, Socket.io, Cloudinary, Render, Multi-Armed Bandit (MAB) algorithm</p>
-            <a href="https://github.com/Trivikram-07/Gruha-Anvesh" class="hover:underline" target="_blank">Github  Link</a>
+            <p><strong>Tools:</strong> 
+              <span class="tool-badge">React</span>
+              <span class="tool-badge">Node.js</span>
+              <span class="tool-badge">Express.js</span>
+              <span class="tool-badge">MongoDB</span>
+              <span class="tool-badge">Socket.io</span>
+              <span class="tool-badge">Cloudinary</span>
+              <span class="tool-badge">Render</span>
+              <span class="tool-badge">Multi-Armed Bandit</span>
+            </p>
           </div>
         </div>
         <div class="project-card right flex flex-col md:flex-row-reverse items-center p-6 rounded-lg shadow-lg">
-          <div class="md:w-1/2 mb-4 md:mb-0">
+          <div class="project-image-container">
             <img src="farm 2 fork.png" alt="Farm2Fork" class="project-image">
           </div>
-          <div class="md:w-1/2 md:px-6">
+          <div class="project-content">
             <h3 class="text-xl font-semibold">Farm2Fork - Agritech Website</h3>
-            <a href="https://github.com/sriraghavi22/farm2fork" class="hover:underline" target="_blank">GitHub Link</a>
+            <div class="project-links">
+              <a href="https://github.com/sriraghavi22/farm2fork" class="hover:underline" target="_blank"><i class="fa-brands fa-github mr-1"></i> GitHub Link</a>
+            </div>
             <p><strong>Overview:</strong> Built an Agritech platform connecting farmers, middlemen, and retail shops to streamline the supply chain, benefiting all stakeholders.</p>
             <p><strong>Features:</strong> Implemented a QR code system for consumers to access tamper-proof product details using IPFS, ensuring product authenticity.</p>
             <p><strong>Impact:</strong> Ensured fair prices for farmers and middlemen while offering consumers genuine, worry-free product experiences.</p>
-            <p><strong>Tools:</strong> React, Express, Node.js, MongoDB, IPFS</p>
+            <p><strong>Tools:</strong> 
+              <span class="tool-badge">React</span>
+              <span class="tool-badge">Express</span>
+              <span class="tool-badge">Node.js</span>
+              <span class="tool-badge">MongoDB</span>
+              <span class="tool-badge">IPFS</span>
+            </p>
           </div>
         </div>
         <div class="project-card flex flex-col md:flex-row items-center p-6 rounded-lg shadow-lg">
-          <div class="md:w-1/2 mb-4 md:mb-0">
+          <div class="project-image-container">
             <img src="number plate recognition.png" alt="Number Plate Recognition" class="project-image">
           </div>
-          <div class="md:w-1/2 md:px-6">
+          <div class="project-content">
             <h3 class="text-xl font-semibold">Automatic Number Plate Recognition for Bus Arrival Tracking</h3>
-            <a href="https://github.com/Trivikram-07/parking-space-management-using-open-cv" class="hover:underline" target="_blank">GitHub Link</a>
+            <div class="project-links">
+              <a href="https://github.com/Trivikram-07/parking-space-management-using-open-cv" class="hover:underline" target="_blank"><i class="fa-brands fa-github mr-1"></i> GitHub Link</a>
+            </div>
             <p><strong>Overview:</strong> Developed a real-time bus tracking system that identifies vehicle number plates using computer vision and OCR techniques.</p>
             <p><strong>Features:</strong> Leveraged Haar Cascade Classifier for number plate detection and integrated Tesseract OCR to extract and process textual information.</p>
             <p><strong>Impact:</strong> Enabled accurate and automated bus arrival tracking, reducing manual effort and improving reliability in transportation systems.</p>
-            <p><strong>Tools:</strong> Python, OpenCV, Haar Cascade, Tesseract OCR</p>
+            <p><strong>Tools:</strong> 
+              <span class="tool-badge">Python</span>
+              <span class="tool-badge">OpenCV</span>
+              <span class="tool-badge">Haar Cascade</span>
+              <span class="tool-badge">Tesseract OCR</span>
+            </p>
           </div>
         </div>
         <div class="project-card right flex flex-col md:flex-row-reverse items-center p-6 rounded-lg shadow-lg">
-          <div class="md:w-1/2 mb-4 md:mb-0">
+          <div class="project-image-container">
             <img src="viki travels.png" alt="Viki Travels" class="project-image">
           </div>
-          <div class="md:w-1/2 md:px-6">
+          <div class="project-content">
             <h3 class="text-xl font-semibold">Viki Travels Website</h3>
-            <a href="https://viki-travels-v2.netlify.app/" class="hover:underline" target="_blank">Deployment Link</a>
-            <p><strong>Overview:</strong> Designed a responsive car rental website where customers can view and book vehicles.</p>
+            <div class="project-links">
+              <a href="https://viki-travels-v2.netlify.app/" class="hover:underline" target="_blank"><i class="fa-solid fa-rocket mr-1"></i> Deployment Link</a>
+              <a href="https://github.com/Trivikram-07/viki-travels" class="hover:underline" target="_blank"><i class="fa-brands fa-github mr-1"></i> GitHub Link</a>
+            </div>
+            <p><strong>Overview:</strong> Viki Travels is a responsive, user-friendly frontend project designed to simplify the process of booking vehicles for travel. Users can browse and select from a variety of car types, including SUVs, MPVs, Sedans, and Hatchbacks, categorized into luxury and affordable options.</p>
             <p><strong>Features:</strong> User-friendly interface with booking functionality.</p>
-            <p><strong>Tools:</strong> React, HTML, CSS, JavaScript, Bootstrap</p>
-            <a href="https://github.com/Trivikram-07/viki-travels" class="hover:underline" target="_blank">GitHub Link</a><br>
+            <p><strong>Tools:</strong> 
+              <span class="tool-badge">React</span>
+              <span class="tool-badge">HTML</span>
+              <span class="tool-badge">CSS</span>
+              <span class="tool-badge">JavaScript</span>
+              <span class="tool-badge">Bootstrap</span>
+            </p>
           </div>
         </div>
         <div class="project-card flex flex-col md:flex-row items-center p-6 rounded-lg shadow-lg">
-          <div class="md:w-1/2 mb-4 md:mb-0">
+          <div class="project-image-container">
             <img src="bv blog.png" alt="B.V Blog" class="project-image">
           </div>
-          <div class="md:w-1/2 md:px-6">
+          <div class="project-content">
             <h3 class="text-xl font-semibold">B.V Blog Website</h3>
+            <div class="project-links"></div>
             <p><strong>Overview:</strong> Created a college blog platform for authenticated students to post reviews and content.</p>
             <p><strong>Features:</strong> Authentication system and content viewing for visitors.</p>
-            <p><strong>Tools:</strong> PHPflutter: 1.0.0, HTML, CSS, JavaScript, MySQL</p>
+            <p><strong>Tools:</strong> 
+              <span class="tool-badge">PHP</span>
+              <span class="tool-badge">HTML</span>
+              <span class="tool-badge">CSS</span>
+              <span class="tool-badge">JavaScript</span>
+              <span class="tool-badge">MySQL</span>
+            </p>
+          </div>
+        </div>
+        <div class="project-card flex flex-col md:flex-row items-center p-6 rounded-lg shadow-lg">
+          <div class="project-image-container">
+            <img src="bank management system image.png" alt="Bank Management System" class="project-image">
+          </div>
+          <div class="project-content">
+            <h3 class="text-xl font-semibold">Bank Management System</h3>
+            <div class="project-links">
+              <a href="https://github.com/Trivikram-07/Bank-Management-System" class="hover:underline" target="_blank"><i class="fa-brands fa-github mr-1"></i> GitHub Link</a>
+            </div>
+            <p><strong>Overview:</strong> A Java-based desktop application simulating an ATM interface, built with Java Swing and MySQL for banking operations.</p>
+            <p><strong>Features:</strong> Account creation, login, deposits, withdrawals, balance enquiries, and mini-statement generation with a user-friendly GUI.</p>
+            <p><strong>Impact:</strong> Provided a robust platform for managing user and transaction data, simulating real-world banking interactions.</p>
+            <p><strong>Tools:</strong> 
+              <span class="tool-badge">Java</span>
+              <span class="tool-badge">Java Swing</span>
+              <span class="tool-badge">MySQL</span>
+            </p>
+          </div>
+        </div>
+        <div class="project-card right flex flex-col md:flex-row-reverse items-center p-6 rounded-lg shadow-lg">
+          <div class="project-image-container">
+            <img src="food recipe finder app.png" alt="Food Recipe Finder" class="project-image">
+          </div>
+          <div class="project-content">
+            <h3 class="text-xl font-semibold">Food Recipe Finder</h3>
+            <div class="project-links">
+              <a href="https://github.com/Trivikram-07/Food-Recipe-Finder" class="hover:underline" target="_blank"><i class="fa-brands fa-github mr-1"></i> GitHub Link</a>
+            </div>
+            <p><strong>Overview:</strong> A Python-based desktop application using Tkinter to search recipes via TheMealDB API.</p>
+            <p><strong>Features:</strong> Search by meal name, display detailed recipe info (ingredients, instructions), and show dish thumbnails with robust error handling.</p>
+            <p><strong>Impact:</strong> Offered a seamless, user-friendly experience for discovering recipes, enhancing culinary exploration.</p>
+            <p><strong>Tools:</strong> 
+              <span class="tool-badge">Python</span>
+              <span class="tool-badge">Tkinter</span>
+              <span class="tool-badge">TheMealDB API</span>
+            </p>
           </div>
         </div>
       </div>
@@ -641,7 +845,7 @@
           </div>
         </div>
         <div class="achievement-card right p-6 rounded-lg shadow-lg">
-          <span class="badge badge-gold">Acheived</span>
+          <span class="badge badge-gold">Achieved</span>
           <i class="fa-solid fa-trophy achievement-star"></i>
           <div>
             <p class="mt-1">Selected for the NxtWave NSDC Fellowship.</p>
@@ -660,7 +864,7 @@
 
   <section id="video" class="py-16">
     <div class="container mx-auto px-4">
-      <h2 class="section-title text-3xl font-bold text-teal-400 mb-6">video resume</h2>
+      <h2 class="section-title text-3xl font-bold text-teal-400 mb-6">Video Resume</h2>
       <hr class="section-divider">
       <div class="video-container flex justify-center p-6 rounded-lg shadow-lg">
         <video class="w-full max-w-2xl rounded-lg" controls poster="thumbnails.jpeg">
@@ -698,13 +902,21 @@
         </div>
         <div class="contact-item">
           <i class="fa-solid fa-file-pdf"></i>
-          <p>Resume: <a href="22211a6731_Dhanireddy_Trivikram_Reddy.pdf" class="hover:underline" download>Download Resume</a></p>
+          <p>Resume: <a href="https://drive.google.com/file/d/15CsOQKxL_XUo5fbQfdJjzMw6V-QTenQH/view?usp=sharing" class="hover:underline" target="_blank">View Resume</a></p>
         </div>
       </div>
     </div>
   </section>
 
   <script>
+    // Stop wave effect after text animation completes
+    document.addEventListener('DOMContentLoaded', () => {
+      const wavyContainer = document.querySelector('.wavy-image-container');
+      setTimeout(() => {
+        wavyContainer.classList.add('stopped');
+      }, 1000);
+    });
+
     // Scroll Animations
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
